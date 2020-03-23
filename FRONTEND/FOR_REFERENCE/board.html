@@ -1,0 +1,35 @@
+<h3>CORN AND DUMDUM MAKE A GAME</h3>
+
+<head>
+  <link rel="stylesheet" href="board.css">
+</head>
+
+
+<table>
+  <tr>
+    <!-- ids are x_y jk they cant start with numbers-->
+    <!-- ids are x(x)_y(y) -->
+    <!-- we need the id's to get the surrounding tiles -->
+    <td><div id="x1_y3"class="tile1"></div></td>
+    <td><div id="x2_y3" class="tile2"></div></td>
+    <td><div id="x3_y3" class="tile3"></div></td>
+  </tr>
+  <tr>
+    <td><div id="x1_y2" class="tile4"></div></td>
+    <td><div id="x2_y2" class="tile5"></div></td>
+    <td><div id="x3_y2" class="tile6"></div></td>
+  </tr>
+  <tr>
+    <td><div id="x1_y1" class="tile7"></div></td>
+    <td><div id="x2_y1" class="tile8"></div></td>
+    <td><div id="x3_y1" class="blank"></div></td>
+  </tr>
+</table>
+
+<button id="play">play</button>
+<button id="moves">moves: 0</button>
+<button id="timer"> 0:00 </button>
+
+<body>
+  <script src="board.js"></script>
+</body>
