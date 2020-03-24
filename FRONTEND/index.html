@@ -4,7 +4,7 @@
   </head>
   <body>
 
-    <div id="user-bar">
+    <div id="user-bar" class="user-bar">
       <form id="login">
         <label>username:</label>
         <input type="text" name="username"> 
@@ -12,23 +12,25 @@
       </form>
     </div>
 
-    <div id="main-menu">
-      <li id="gallery">Gallery</li>
-      <li id="leaderBoard">Stats</li>
-      <li id="savedGames">Saved Games</li>
+    <div id="main-menu" class="main-menu">
+      <ul>
+        <br><li id="gallery">Gallery</li> <br>
+        <li id="leaderBoard">Stats</li><br>
+        <li id="savedGames">Saved Games</li>
+      </ul>
     </div>
 
-    <div id="sub-menu">
+    <div id="sub-menu" class="sub-menu">
       <!-- Here we will show gallery images -->
       <!-- Or we will show saved games -->
       <!-- Or we will show stats -->
     </div>
 
-    <div id="show-panel">
+    <div id="show-panel" class="show-panel">
       <!-- here we will show the game -->
       <!-- or the leader board -->
     </div>
-
+    <script src="src/board.js"></script>
     <script src="src/index.js"></script>
   </body>
 </html>
