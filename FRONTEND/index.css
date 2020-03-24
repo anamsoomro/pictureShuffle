@@ -1,11 +1,64 @@
+body {
+  font-family: 'Helvetica Neue', Helvetica, sans-serif;
+  font-size: 15px;
+  background: #ffffff;
+  font-weight: 300;
+  margin: 0;
+}
+
 .gallery {
    height: 120px;
+}
+
+.user-bar {
+  background-color: #606264;
+  height: 5%;
+
+}
+
+.main-menu {
+  width: 15%;
+  background-color: #7c8085;
+  /* margin: 0; */
+  padding: 0;
+  border: 0;
+  width: 15%;
+  position: fixed;
+  height: 100%;
+  overflow: auto;
+
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+
+
+.sub-menu {
+  background-color: #aaafb4;
+  margin-left: 15%;
+
+  padding: 0;
+  border: 0;
+  width: 20%;
+  position: fixed;
+  height: 100%;
+  overflow: auto;
+
+}
+
+.show-panel{
+  margin-left: 35%;
+
 }
 
 
 /* BOARD CSS */
 
-.tile1, .tile2, .tile3, .tile4, .tile5, .tile6, .tile7, .tile8 {
+.tile1, .tile2, .tile3, .tile4, .tile5, .tile6, .tile7, .tile8, .blank {
   width: 160px;
   height: 160px;
 }
