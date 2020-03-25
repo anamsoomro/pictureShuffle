@@ -1,8 +1,6 @@
-
   const USERS_URL = "http://localhost:3000/users"
   const IMAGES_URL = "http://localhost:3000/images"
   const GAMES_URL = "http://localhost:3000/games"
-
   const form = document.querySelector("#login")
   const galleryLi = document.querySelector("#gallery")
   const leaderBoardLi = document.querySelector("#leaderBoard")
@@ -11,30 +9,8 @@
   const mainMenuDiv = document.querySelector("#main-menu")
   const subMenuDiv = document.querySelector("#sub-menu")
   const showDiv = document.querySelector("#show-panel")
-  let user 
-
-  galleryLi.addEventListener("click", () => {
-    subMenuDiv.innerHTML = "" 
-    showDiv.innerText = ""
-    // alert("show all images ")
-    fetch(IMAGES_URL)
-    .then(resp => resp.json())
-    .then(images => images.forEach(image => showImage(image)))
-  })
-
-  leaderBoardLi.addEventListener("click", () => {
-    subMenuDiv.innerHTML = ""
-    subMenuDiv.innerHTML = "show some options for user stats"
-    showDiv.innerText = ""
-
-  })
-
-  savedGamesLi.addEventListener("click", ()=>{
-    subMenuDiv.innerHTML = ""
-    subMenuDiv.innerHTML = "show users their games that are status:open"
-    showDiv.innerText = ""
-    // make a fetchSavedGames()
-  })
+  let currentUser
+  let currentImage
 
   form.addEventListener("submit", () => {
     event.preventDefault()
@@ -51,17 +27,17 @@
     .then(resp => resp.json())
     .then(userRecord => {
       form.reset()
-      user = userRecord
+      currentUser = userRecord
       form.style.display = "none"
       let greeting = document.createElement("label")
-      greeting.innerText = `Hey, ${user.username}!`
+      greeting.innerText = `Hey, ${currentUser.username}!`
       greeting.id = "username"
       let logoutBtn = document.createElement("button")
       logoutBtn.innerText = "logout"
       userDiv.append(greeting, logoutBtn)
       // when login show the other three divs 
       logoutBtn.addEventListener("click", ()=> {
-        user = null
+        currentUser = null
         form.style.display = "block"
         logoutBtn.remove()
         greeting.remove()
@@ -70,14 +46,45 @@
     })
   })
 
-  function showImage(image){
+  galleryLi.addEventListener("click", () => {
+    subMenuDiv.innerHTML = "" 
+    showDiv.innerText = ""
+    fetch(IMAGES_URL)
+    .then(resp => resp.json())
+    .then(images => images.forEach(image => showImage(image)))
+  })
+
+  leaderBoardLi.addEventListener("click", () => {
+    subMenuDiv.innerHTML = ""
+    subMenuDiv.innerHTML = "show some options for user stats"
+    showDiv.innerText = ""
+
+  })
+
+  savedGamesLi.addEventListener("click", ()=>{
+    subMenuDiv.innerHTML = ""
+    showDiv.innerText = ""
+    fetch(USERS_URL + "/" + currentUser.id) 
+    .then(resp => resp.json())
+    .then(openGames => showGames(openGames))
+  })
+
+  function showGames(openGames){
+    openGames.forEach(openGame => {
+      fetch(IMAGES_URL + "/" + openGame.image_id)
+      .then(resp => resp.json())
+      .then(image => {showImage(image, openGame)})
+    })
+  }
+
+  function showImage(image, openGame = null){
     let img = document.createElement("img")
     img.src = image.image_url
-    img.className = "gallery" //come back to styline later 
+    img.className = "gallery" 
     img.addEventListener("click", ()=>{
-      // refer to board.js for board functions
-      showBoard(image) 
-      activateBoard(image) // refer to board.js 
+      currentImage = image
+      showGame(openGame) 
+      togglePlayPause() 
     }) 
     subMenuDiv.append(img)
   }

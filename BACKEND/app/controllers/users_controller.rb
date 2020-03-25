@@ -6,7 +6,6 @@ class UsersController < ApplicationController
   end
 
   def create 
-    # byebug
     user = User.find_or_create_by(username: strong_params[:username])
     # this gives us our current user
     render json: user
@@ -14,8 +13,8 @@ class UsersController < ApplicationController
 
   def show 
     user = User.find(params[:id])
-    users_games = user.games.select{|game| game.status == "open"}
-    render json: users_games
+    users_open_games = user.games.select{|game| game.status == "open"}
+    render json: users_open_games
   end
 
   private 
