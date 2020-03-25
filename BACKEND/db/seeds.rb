@@ -15,7 +15,7 @@ Game.create(
   user_id: corn.id,
   image_id: pup.id ,
   moves: 23,
-  time: "00:23",
+  time: "0:00:23",
   status: "closed"
 )
 
@@ -23,7 +23,7 @@ Game.create(
   user_id: dumdum.id,
   image_id: painting.id,
   moves: 34,
-  time: "00:34",
+  time: "0:00:34",
   status: "open",
   x1_y1: "tile7",
   x2_y1: "tile3",
