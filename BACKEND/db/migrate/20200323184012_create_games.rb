@@ -5,7 +5,7 @@ class CreateGames < ActiveRecord::Migration[6.0]
       t.integer :image_id
 
       t.integer :moves
-      t.datetime :time
+      t.string :time
 
       t.string :status 
       t.string :x1_y1

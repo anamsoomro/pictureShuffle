@@ -16,7 +16,7 @@ ActiveRecord::Schema.define(version: 2020_03_23_184037) do
     t.integer "user_id"
     t.integer "image_id"
     t.integer "moves"
-    t.datetime "time"
+    t.string "time"
     t.string "status"
     t.string "x1_y1"
     t.string "x2_y1"
