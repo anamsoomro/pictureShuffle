@@ -36,4 +36,30 @@ Game.create(
   x3_y3: "tile6"
 )
 
+Game.create(
+  user_id: dumdum.id,
+  image_id: earth.id ,
+  moves: 56,
+  time: "00:23",
+  status: "closed"
+)
+
+
+Game.create(
+  user_id: corn.id,
+  image_id: painting.id ,
+  moves: 103,
+  time: "00:23",
+  status: "closed"
+)
+
+Game.create(
+  user_id: corn.id,
+  image_id: earth.id ,
+  moves: 12,
+  time: "00:23",
+  status: "closed"
+)
+
+
 
