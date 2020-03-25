@@ -80,9 +80,13 @@
   function showImage(image, openGame = null){
     let img = document.createElement("img")
     img.src = image.image_url
+    if (openGame){
+      img.id = `gameId${openGame.id}`
+    }
     img.className = "gallery" 
     img.addEventListener("click", ()=>{
       currentImage = image
+      currentGame = null 
       showGame(openGame) 
       togglePlayPause() 
     }) 

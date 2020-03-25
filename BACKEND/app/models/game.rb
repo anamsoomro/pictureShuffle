@@ -22,7 +22,7 @@ class Game < ApplicationRecord
   end
 
   def self.game_speed
-    self.all.sort_by{|game| game.}
+    # self.all.sort_by{|game| game.}
   end
   
 

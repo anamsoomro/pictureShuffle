@@ -25,21 +25,13 @@ const boardHTML =
 
   let time 
   let currentGame
+  let dev = "here"
 
 function showGame(openGame){
   if (openGame) {
     showExistingGame(openGame)
-    currentGame = openGame
   } else if (openGame === null){
-    showDiv.innerHTML = boardHTML
-    const gameBoard = document.querySelector("#game-board")
-    const tilePieces = gameBoard.querySelectorAll("div")
-    tilePieces.forEach( tilePiece => {
-      if (tilePiece.className !== "blank"){
-        tilePiece.style.backgroundImage = `url(${currentImage.image_url})`
-
-      }
-    })
+    showNewGame()
   }
 }
 
@@ -65,12 +57,19 @@ function togglePlayPause(){
 }
 
 function playNewGame(){
+  console.log("YOU PLAYING A NEW GAME")
   let movesBtn = document.querySelector("#moves")
   movesBtn.innerText = "moves: 0"
   const board = document.querySelector("#game-board")
   let tiles = board.querySelectorAll("div")
-  shuffleBoard()
+  if (dev === "here"){
+    devShuffle()
+  } else { 
+    shuffleBoard()
+  }
   postNewGame()
+ 
+
   let moves = 0
   let startTime = Date.now()
   time = setInterval(()=>{
@@ -88,7 +87,6 @@ function playNewGame(){
           // if they exist, are they blank? 
           if(tileToSwap.className === "blank"){
             // then swap them
-            // swapTile(tile, tileToSwap, image)
             swapTile(tile, tileToSwap)
             // check to see if current arrangment matches the solution 
             moves = moves + 1 
@@ -118,6 +116,7 @@ function playNewGame(){
 }
 
 function playPausedGame(){
+  console.log("YOU PLAYING A PAUSED GAME")
   let movesBtn = document.querySelector("#moves")
   const board = document.querySelector("#game-board")
   const timer = document.querySelector("#timer")
@@ -142,13 +141,13 @@ function playPausedGame(){
             swapTile(tile, tileToSwap)
             // check to see if current arrangment matches the solution 
             moves = moves + 1 
-            console.log("moves incremented", moves)
+            // console.log("moves incremented", moves)
             movesBtn.innerText = `moves: ${moves}`  
             if (checkSolution()) {
               console.log("solved")
               const playBtn = document.querySelector("#play")
               const stopBtn = document.querySelector("#stop")
-              playBtn.style.display = "block"
+              playBtn.style.display = "inline"
               stopBtn.style.display = "none"
               const h2 = document.createElement("h2")
               h2.innerText = "you did it."
@@ -157,6 +156,11 @@ function playPausedGame(){
               }, 5000)
               showDiv.append(h2)
               clearInterval(time)
+              // if this an "unfinished game", remove it from their list of unfinished games
+              let openGameImg = document.querySelector(`#gameId${currentGame.id}`)
+              if (openGameImg){
+                openGameImg.remove()
+              }
               closeGame()
               currentGame = null
             } 
@@ -175,17 +179,32 @@ function surroundingTiles(tile){
   let upTile = document.querySelector(`#x${x}_y${y+1}`)
   let downTile = document.querySelector(`#x${x}_y${y-1}`)
   return [leftTile, rightTile, upTile, downTile]
-
 }
-//  count number of not nils 
-// use that as indices to grab a tile 
-// swap tile with that 
 
-// array_of_elment <- surroundTiles
-// remove nils
-// number_of_not_nils <- length(array_of_element)
-// randomNumber <- random(number_of_not_nil)
-// randomTile <- array_of_element(randomNumber)
+function shuffleBoard(){
+  // // developers shuffle lmao
+  // let tile = document.querySelector("#x2_y1")
+  // let blank = document.querySelector("#x3_y1")
+  // swapTile(tile, blank)
+  // real shuffle
+  let i = 0
+    let swap = setInterval( ()=>{
+      let blankTile = document.querySelector(".blank")
+      let tiles = surroundingTiles(blankTile).filter( tile => tile)
+      let rand = Math.floor( Math.random() * tiles.length )
+      swapTile(tiles[rand], blankTile)
+      i++ 
+      if (i === 50){
+       clearInterval (swap)
+      }
+    },20)
+}
+
+function devShuffle(){
+  let tile = document.querySelector("#x2_y1")
+  let blank = document.querySelector("#x3_y1")
+  swapTile(tile, blank)
+}
 
 
 function swapTile(tile, blankTile){
@@ -239,18 +258,12 @@ function addTime(time1, time2){
   //  this doesnt return minutes and seconds in two digits. come back later
 }
 
-function shuffleBoard(){
-  // developers shuffle lmao
-  let tile = document.querySelector("#x2_y1")
-  let blank = document.querySelector("#x3_y1")
-  swapTile(tile, blank)
-  // real shuffle. maybe somehow call swapTile multiple times
-  arr = ["tile1", "tile2", "tile3", "tile4", "tile5", "tile6", "tile7", "tile8", "blank"]
-}
+
 
 function postNewGame(){
-  console.log(currentUser)
-  console.log (currentImage)
+  // console.log(currentUser)
+  // console.log (currentImage)
+  console.log("new game saved to database")
   fetch(GAMES_URL, {
     method: "POST",
     headers: {
@@ -266,9 +279,10 @@ function postNewGame(){
   })
   .then(resp => resp.json())
   .then(newGame => {
-    console.log(newGame)
+    // console.log(newGame)
     currentGame = newGame
   })
+
 }
 
 function saveGame(){
@@ -315,7 +329,20 @@ function saveGame(){
   })
 }
 
+function showNewGame(){
+  showDiv.innerHTML = boardHTML
+  const gameBoard = document.querySelector("#game-board")
+  const tilePieces = gameBoard.querySelectorAll("div")
+  tilePieces.forEach( tilePiece => {
+    if (tilePiece.className !== "blank"){
+      tilePiece.style.backgroundImage = `url(${currentImage.image_url})`
+
+    }
+  })
+}
+
 function showExistingGame(openGame){
+  currentGame = openGame
   showDiv.innerHTML = boardHTML
   const x1_y1 = document.querySelector("#x1_y1")
   const x2_y1 = document.querySelector("#x2_y1")
