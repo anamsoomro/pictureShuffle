@@ -22,6 +22,11 @@ class GamesController < ApplicationController
 
   end
 
+  def destroy 
+    current_game = Game.find(params[:id])
+    current_game.destroy()
+  end
+
   private
 
   def new_game_params 
