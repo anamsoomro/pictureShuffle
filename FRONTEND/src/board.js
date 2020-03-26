@@ -22,7 +22,7 @@ const boardHTML =
 
   `<button id="moves">moves: 0</button>`+
   `<button id="timer"> 0:00:00 </button>` + 
-  `<button id="kill" style="display: none"> kill game </button>`
+  `<button id="kill" style="display: none" class="hoverMe"> kill game </button>`
 
 
   let time 
@@ -273,9 +273,7 @@ function addTime(time1, time2){
 
 
 function postNewGame(){
-
   console.log("post new game")
-
   console.log("new game created")
   fetch(GAMES_URL, {
     method: "POST",

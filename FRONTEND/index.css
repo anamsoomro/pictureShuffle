@@ -12,6 +12,11 @@ body {
    display: inline-block;
 }
 
+
+.gallery:hover:not(.active){
+  /* height:  500px; */
+}
+
 .user-bar {
   background-color: #333;
   height: 46px;
@@ -35,10 +40,11 @@ body {
   /* margin-top: 80px; */
 }
 
-.show-panel{
+.show-panel {
   margin-top: 120px;
   width: 500px; 
-  white-space: nowrap;
+  /* white-space: nowrap; */
+  display: block;
 }
 
 
@@ -60,7 +66,6 @@ li {
   text-decoration: none;
 }
 
-
 /* i only want this on some li elements. not all. */
 li.hoverMe:hover:not(.active) {
   background-color: #111;
@@ -69,7 +74,6 @@ li.hoverMe:hover:not(.active) {
 input[type="button" i], input[type="submit" i], input[type="reset" i] {
   all: unset;
 }
-
 
 /* BOARD CSS */
 
