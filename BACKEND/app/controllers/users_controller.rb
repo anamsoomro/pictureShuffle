@@ -14,7 +14,10 @@ class UsersController < ApplicationController
   def show 
     user = User.find(params[:id])
     users_open_games = user.games.select{|game| game.status == "open"}
-    render json: users_open_games
+    users_closed_games = user.games.select{|game| game.status == "closed"}
+    users_games = {open: users_open_games, closed: users_closed_games }
+    
+    render json: users_games
   end
 
   private 

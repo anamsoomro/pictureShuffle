@@ -15,7 +15,6 @@
 
 
 
-  // LOGIN ACTIONS
   form.addEventListener("submit", () => {
     event.preventDefault()
     let name = form[0].value
@@ -62,14 +61,6 @@
     .then(resp => resp.json())
     .then(images => images.forEach(image => showImage(image)))
   })
-
-  // leaderBoardLi.addEventListener("click", () => {
-  //   subMenuDiv.style.display = "inline"
-  //   subMenuDiv.innerHTML = ""
-  //   subMenuDiv.innerHTML = "show some options for user stats"
-  //   showDiv.innerText = ""
-
-  // })
 
   leaderBoardLi.addEventListener("click", () => {
     subMenuDiv.innerHTML = ""
@@ -119,7 +110,7 @@
     showDiv.innerText = ""
     fetch(USERS_URL + "/" + currentUser.id) 
     .then(resp => resp.json())
-    .then(openGames => showGames(openGames))
+    .then(games =>{showGames(games["open"])})
   })
 
   function showGames(openGames){
@@ -133,11 +124,11 @@
   function showImage(image, openGame = null){
     let img = document.createElement("img")
     img.src = image.image_url
-    if (openGame){
-      img.id = `gameId${openGame.id}`
-    }
+    if (openGame) img.id = `gameId${openGame.id}`
     img.className = "gallery" // or can i just set a format for all images. one less class
     img.addEventListener("click", ()=>{
+      console.log("time defined here:", time) // if time is assigned to something here than stop clearIntervalTime
+      if (time) clearInterval(time)
       currentImage = image
       currentGame = null 
       showGame(openGame) 
