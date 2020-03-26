@@ -1,5 +1,7 @@
 class GamesController < ApplicationController
 
+  # before_action :remove_bad_games, only: [:show, :create, :update, :destroy]
+
   def index 
     games = Game.all 
     render json: games
@@ -19,12 +21,18 @@ class GamesController < ApplicationController
   def update
     current_game = Game.find(params[:id])
     current_game.update(update_game_params)
-
+    render json: current_game
   end
 
   def destroy 
     current_game = Game.find(params[:id])
     current_game.destroy()
+  end
+
+  def remove_bad_games
+    # delete games that were initiated but never saved. (person didnt hit pause)
+    bad_games = Game.where( time: "0:00:00" )
+    bad_games.destroy()
   end
 
   private
