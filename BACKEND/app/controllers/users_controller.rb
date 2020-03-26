@@ -7,7 +7,9 @@ class UsersController < ApplicationController
 
   def create 
     user = User.find_or_create_by(username: strong_params[:username])
-    # this gives us our current user
+    # everytime someone logs in. we delete the games that start and dont save
+    # this also might make it slower
+    bad_games = Game.all.select{|game| game.time == "0:00:00"}
     render json: user
   end
 
