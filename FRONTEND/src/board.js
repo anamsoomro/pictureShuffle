@@ -23,8 +23,6 @@ const boardHTML =
   `<button id="moves">moves: 0</button>`+
   `<button id="timer"> 0:00:00 </button>` + 
   `<button id="kill" style="display: none" class="hoverMe"> kill game </button>`
-
-
   let time 
   let currentGame
   let dev = "here"
@@ -33,12 +31,10 @@ const boardHTML =
 
 
 function showGame(openGame){
-  console.log("showGame")
   openGame ? showExistingGame(openGame) : showNewGame()
 }
 
 function togglePlayPause(){
-  console.log("togglePlayPause")
   const playBtn = document.querySelector("#play")
   const stopBtn = document.querySelector("#stop")
   const killBtn = document.querySelector("#kill")
@@ -59,15 +55,16 @@ function togglePlayPause(){
   killBtn.addEventListener("click", ()=>{
     clearInterval(time)
     deleteGame()
+    currentGame = null
     showGame()
+    togglePlayPause()
+    // if youre playing an unfinised game remove its img from the queue 
     let openGameImg = document.querySelector(`#gameId${currentGame.id}`)
     if (openGameImg) openGameImg.remove()
-    currentGame = null
   })
 }
 
 function playNewGame(){
-  console.log("PlayNewGame")
   console.log("YOU PLAYING A NEW GAME")
   let movesBtn = document.querySelector("#moves")
   movesBtn.innerText = "moves: 0"
@@ -106,11 +103,9 @@ function playNewGame(){
               const stopBtn = document.querySelector("#stop")
               playBtn.style.display = "inline"
               stopBtn.style.display = "none"
-              const h2 = document.createElement("h2")
-              h2.innerText = "you did it."
-              setTimeout(()=>{h2.remove()}, 5000)
-              showDiv.append(h2)
-              clearInterval(time)
+              const killBtn = document.querySelector("#kill")
+              killBtn.style.display = "none"
+              winMessage()
               // if this an "unfinished game", remove it from their list of unfinished games
               let openGameImg = document.querySelector(`#gameId${currentGame.id}`)
               if (openGameImg) openGameImg.remove()
@@ -127,7 +122,6 @@ function playNewGame(){
 
 
 function playPausedGame(){
-  console.log("playPausedGame")
   console.log("YOU PLAYING A PAUSED GAME")
   let movesBtn = document.querySelector("#moves")
   const board = document.querySelector("#game-board")
@@ -160,6 +154,8 @@ function playPausedGame(){
               const stopBtn = document.querySelector("#stop")
               playBtn.style.display = "inline"
               stopBtn.style.display = "none"
+              killBtn.style.display = "none"
+
               const h2 = document.createElement("h2")
               h2.innerText = "you did it."
               setTimeout(()=>{
@@ -183,7 +179,6 @@ function playPausedGame(){
 }
 
 function surroundingTiles(tile){
-  console.log("surrounding tiles")
   let x = parseInt(tile.id[1])
   let y = parseInt(tile.id[4])
   let leftTile = document.querySelector(`#x${x-1}_y${y}`)
@@ -194,7 +189,6 @@ function surroundingTiles(tile){
 }
 
 function shuffleBoard(){
-  console.log("shuffleBoard")
   let i = 0
     let swap = setInterval( ()=>{
       let blankTile = document.querySelector(".blank")
@@ -209,7 +203,6 @@ function shuffleBoard(){
 }
 
 function devShuffle(){
-  console.log("devShuffle")
   let tile = document.querySelector("#x2_y1")
   let blank = document.querySelector("#x3_y1")
   swapTile(tile, blank)
@@ -217,7 +210,6 @@ function devShuffle(){
 
 
 function swapTile(tile, blankTile){
-  console.log("swapTile")
   // function swapTile(tile, blankTile, image){
   // give the blank tile the tiles class and background image
   blankTile.className = tile.className
@@ -230,7 +222,6 @@ function swapTile(tile, blankTile){
 
 function checkSolution(){
   console.log("checkSolution")
-
   const solution = ["tile1", "tile2", "tile3", "tile4", "tile5", "tile6", "tile7", "tile8", "blank"]
   const board = document.querySelector("#game-board")
   let arrangement = board.querySelectorAll("div")
@@ -270,10 +261,7 @@ function addTime(time1, time2){
   //  this doesnt return minutes and seconds in two digits. come back later
 }
 
-
-
 function postNewGame(){
-  console.log("post new game")
   console.log("new game created")
   fetch(GAMES_URL, {
     method: "POST",
@@ -294,8 +282,6 @@ function postNewGame(){
 
 
 function saveGame(){
-  console.log("saveGame")
-
   let moves = parseInt(document.querySelector("#moves").innerText.substring(7))
   let time = document.querySelector("#timer").innerText
   const board = document.querySelector("#game-board")
@@ -324,8 +310,7 @@ function saveGame(){
 }
 
   function closeGame() {
-  console.log("closeGame")
-
+  console.log("game is closed")
   let moves = parseInt(document.querySelector("#moves").innerText.substring(7))
   let time = document.querySelector("#timer").innerText
   fetch(GAMES_URL + "/" + currentGame.id, {
@@ -340,8 +325,6 @@ function saveGame(){
 }
 
 function showNewGame(){
-  console.log("showNewGame")
-
   showDiv.innerHTML = boardHTML
   const gameBoard = document.querySelector("#game-board")
   const tilePieces = gameBoard.querySelectorAll("div")
@@ -354,8 +337,6 @@ function showNewGame(){
 }
 
 function showExistingGame(openGame){
-  console.log("showExistingGame")
-
   currentGame = openGame
   showDiv.innerHTML = boardHTML
   const x1_y1 = document.querySelector("#x1_y1")
@@ -389,9 +370,17 @@ function showExistingGame(openGame){
 }
 
 function deleteGame(){
-  console.log("deleteGame")
+  console.log("game is deleted from db")
   fetch(GAMES_URL + "/" + currentGame.id, {
     method: "DELETE", 
     headers: {"Content-Type": "application/json"}
   })
+}
+
+function winMessage(){
+  const h2 = document.createElement("h2")
+  h2.innerText = "you did it."
+  setTimeout(()=>{h2.remove()}, 5000)
+  showDiv.append(h2)
+  clearInterval(time)
 }
