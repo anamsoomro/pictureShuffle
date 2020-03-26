@@ -19,7 +19,16 @@ class GamesController < ApplicationController
   def update
     current_game = Game.find(params[:id])
     current_game.update(update_game_params)
+  end
 
+  def destroy 
+    current_game = Game.find(params[:id])
+    current_game.destroy()
+  end
+
+  def stats 
+    stats = {moves: Game.orderByMoves, time: Game.orderByTime}
+    render  json: stats
   end
 
   private
