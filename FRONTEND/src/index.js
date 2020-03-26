@@ -63,12 +63,54 @@
     .then(images => images.forEach(image => showImage(image)))
   })
 
-  leaderBoardLi.addEventListener("click", () => {
-    subMenuDiv.style.display = "inline"
-    subMenuDiv.innerHTML = ""
-    subMenuDiv.innerHTML = "show some options for user stats"
-    showDiv.innerText = ""
+  // leaderBoardLi.addEventListener("click", () => {
+  //   subMenuDiv.style.display = "inline"
+  //   subMenuDiv.innerHTML = ""
+  //   subMenuDiv.innerHTML = "show some options for user stats"
+  //   showDiv.innerText = ""
 
+  // })
+
+  leaderBoardLi.addEventListener("click", () => {
+    subMenuDiv.innerHTML = ""
+    showDiv.innerText = ""
+    const li = document.createElement('li')
+    li.innerHTML = 'Best Moves'
+    li.addEventListener('click', ()=>{
+      showDiv.innerHTML = ''
+      const g1btn = document.createElement('button')
+        g1btn.innerText = 'GAME 1'
+      const g2btn = document.createElement('button')
+        g2btn.innerText = 'GAME 2'
+      const g3btn = document.createElement('button')
+        g3btn.innerText = 'GAME 3'
+      showDiv.append(g1btn, g2btn, g3btn)
+    })
+    const timeli = document.createElement('li')
+    timeli.innerHTML = 'Best Time'
+    timeli.addEventListener('click', ()=>{
+      showDiv.innerHTML = '' 
+      const g1btn = document.createElement('button')
+        g1btn.innerText = 'GAME 1'
+      const g2btn = document.createElement('button')
+        g2btn.innerText = 'GAME 2'
+      const g3btn = document.createElement('button')
+        g3btn.innerText = 'GAME 3'
+      showDiv.append(g1btn, g2btn, g3btn)
+    })
+    const userli = document.createElement('li')
+    userli.innerHTML = 'Top User'
+    userli.addEventListener('click', ()=>{
+      showDiv.innerHTML = '' 
+      const g1btn = document.createElement('button')
+      g1btn.innerText = 'GAME 1'
+      const g2btn = document.createElement('button')
+      g2btn.innerText = 'GAME 2'
+      const g3btn = document.createElement('button')
+      g3btn.innerText = 'GAME 3'
+      showDiv.append(g1btn, g2btn, g3btn)
+    })
+    subMenuDiv.append(li, timeli, userli)
   })
 
   savedGamesLi.addEventListener("click", ()=>{
