@@ -6,20 +6,22 @@
   const leaderBoardLi = document.querySelector("#leaderBoard")
   const savedGamesLi = document.querySelector("#savedGames")
   const userDiv = document.querySelector("#user-bar")
+  const userUl = document.querySelector("ul")
   const mainMenuDiv = document.querySelector("#main-menu")
   const subMenuDiv = document.querySelector("#sub-menu")
   const showDiv = document.querySelector("#show-panel")
   let currentUser
   let currentImage
 
+
+
+  // LOGIN ACTIONS
   form.addEventListener("submit", () => {
     event.preventDefault()
     let name = form[0].value
     fetch(USERS_URL, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      }, 
+      headers: {"Content-Type": "application/json"}, 
       body: JSON.stringify({
         username: name
       })
@@ -27,26 +29,33 @@
     .then(resp => resp.json())
     .then(userRecord => {
       form.reset()
+      mainMenuDiv.style.display = "inline"
       currentUser = userRecord
       form.style.display = "none"
-      let greeting = document.createElement("label")
+      let greeting = document.createElement("li")
       greeting.innerText = `Hey, ${currentUser.username}!`
       greeting.id = "username"
-      let logoutBtn = document.createElement("button")
+      let logoutBtn = document.createElement("li")
+      logoutBtn.className = "hoverMe"
       logoutBtn.innerText = "logout"
-      userDiv.append(greeting, logoutBtn)
+      logoutBtn.style.float = "right"
+      userUl.append(greeting, logoutBtn)
       // when login show the other three divs 
       logoutBtn.addEventListener("click", ()=> {
+        mainMenuDiv.style.display = "none"
+        subMenuDiv.style.display = "none" 
+        showDiv.innerHTML = ""
+        // why does the above not work. but works in the console
         currentUser = null
         form.style.display = "block"
         logoutBtn.remove()
         greeting.remove()
-        // Eventually when logout, hide the other 3 divs
       })
     })
   })
 
   galleryLi.addEventListener("click", () => {
+    subMenuDiv.style.display = "inline"
     subMenuDiv.innerHTML = "" 
     showDiv.innerText = ""
     fetch(IMAGES_URL)
@@ -55,6 +64,7 @@
   })
 
   leaderBoardLi.addEventListener("click", () => {
+    subMenuDiv.style.display = "inline"
     subMenuDiv.innerHTML = ""
     subMenuDiv.innerHTML = "show some options for user stats"
     showDiv.innerText = ""
@@ -62,6 +72,7 @@
   })
 
   savedGamesLi.addEventListener("click", ()=>{
+    subMenuDiv.style.display = "inline"
     subMenuDiv.innerHTML = ""
     showDiv.innerText = ""
     fetch(USERS_URL + "/" + currentUser.id) 
@@ -83,7 +94,7 @@
     if (openGame){
       img.id = `gameId${openGame.id}`
     }
-    img.className = "gallery" 
+    img.className = "gallery" // or can i just set a format for all images. one less class
     img.addEventListener("click", ()=>{
       currentImage = image
       currentGame = null 
