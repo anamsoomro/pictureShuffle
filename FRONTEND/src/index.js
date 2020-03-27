@@ -55,6 +55,8 @@
         form.style.display = "block"
         logoutBtn.remove()
         greeting.remove()
+      if (time) clearInterval(time)
+
       })
     })
   })
@@ -66,6 +68,7 @@
     gameBoardDiv.innerHTML = ""
         gameControlsDiv.innerHTML = ""
         leaderBoardDiv.innerHTML = ""
+        if (time) clearInterval(time)
 
     fetch(IMAGES_URL)
     .then(resp => resp.json())
@@ -78,6 +81,8 @@
     gameBoardDiv.innerHTML = ""
     gameControlsDiv.innerHTML = ""
     showDiv.style.display = "block"
+    if (time) clearInterval(time)
+
     const table = document.createElement("table")
     const titlesTr = document.createElement("tr")
     const imgTh = document.createElement("th")
@@ -120,23 +125,6 @@
         element.className = classN
       })
     }
-
-
-
-    // debugger
-    // const h1 = document.createElement('h1')
-    // h1.innerText = 'Best Moves'
-    // fetch(GAMES_URL +  '/stats')
-    // .then(res => res.json())
-    // .then(leadStats => {
-    //   const img = document.createElement('img')
-    //   console.log(leadStats)
-    //   // get the image. for each game
-    //   img.src = image.image_url
-    //   img.className = "gallery"
-
-    // })
-    // subMenuDiv.append(h1)
   })
 
   savedGamesLi.addEventListener("click", ()=>{
@@ -146,7 +134,7 @@
     gameBoardDiv.innerHTML = ""
     gameControlsDiv.innerHTML = ""
     leaderBoardDiv.innerHTML = ""
-
+    if (time) clearInterval(time)
     fetch(USERS_URL + "/" + currentUser.id) 
     .then(resp => resp.json())
     .then(games =>{showGames(games["open"])})
@@ -164,10 +152,9 @@
     let img = document.createElement("img")
     img.src = image.image_url
     if (openGame) img.id = `gameId${openGame.id}`
-    img.className = "gallery" // or can i just set a format for all images. one less class
+    img.className = "gallery" 
     img.addEventListener("click", ()=>{
       showDiv.style.display = "grid"
-      console.log("time defined here:", time) // if time is assigned to something here than stop clearIntervalTime
       if (time) clearInterval(time)
       currentImage = image
       currentGame = null 

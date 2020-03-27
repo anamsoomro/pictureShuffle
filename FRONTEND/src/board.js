@@ -1,5 +1,5 @@
 const boardHTML = 
-    `<table id="game-board">` + 
+    `<table id="game-board" class="game-board">` + 
     `<tr>` +
       `<td><div id="x1_y3"class="tile1"></div></td>` +
       `<td><div id="x2_y3" class="tile2"></div></td>` +
@@ -81,7 +81,6 @@ function playNewGame(){
   dev === "here" ? devShuffle() : shuffleBoard();
   postNewGame()
   moves = 0
-  // console.log ("moves at line 75", moves)
   let startTime = Date.now()
   time = setInterval(()=>{
     const timer = document.querySelector("#timer")
@@ -104,12 +103,9 @@ function activateTile(tile,movesBtn){
         // then swap them
         swapTile(tile, tileToSwap)
         // check to see if current arrangment matches the solution 
-        console.log("moves at line 99", moves)
         moves++
-        console.log("moves at like 101", moves)
         movesBtn.innerText = `moves: ${moves}`  
         if (checkSolution()) {
-          console.log("solved")
           const playBtn = document.querySelector("#play")
           const stopBtn = document.querySelector("#stop")
           playBtn.style.display = "block"
@@ -196,7 +192,6 @@ function swapTile(tile, blankTile){
 }
 
 function checkSolution(){
-  console.log("checkSolution")
   const solution = ["tile1", "tile2", "tile3", "tile4", "tile5", "tile6", "tile7", "tile8", "blank"]
   const board = document.querySelector("#game-board")
   let arrangement = board.querySelectorAll("div")
@@ -387,7 +382,6 @@ function showExistingGameControls(openGame){
   let moves = document.querySelector("#moves")
   moves.innerText = `moves: ${openGame.moves}`
   let timer = document.querySelector("#timer")
-  console.log("time in line 413", openGame.time)
   timer.innerText = `time: ${openGame.time}`
 }
 

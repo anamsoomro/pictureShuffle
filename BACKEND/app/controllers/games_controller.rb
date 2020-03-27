@@ -1,6 +1,5 @@
 class GamesController < ApplicationController
 
-  # before_action :remove_bad_games, only: [:show, :create, :update, :destroy]
 
   def index 
     games = Game.all 
@@ -14,7 +13,6 @@ class GamesController < ApplicationController
 
   def create 
     new_game = Game.create(new_game_params)
-    # byebug
     render json: new_game
   end
 
@@ -29,17 +27,16 @@ class GamesController < ApplicationController
     current_game.destroy()
   end
 
-  def remove_bad_games
-    # delete games that were initiated but never saved. (person didnt hit pause)
-    # debugger
-    bad_games = Game.where( time: "00:00:00" )
-    bad_games.destroy()
-  end
+  # def remove_bad_games
+  #   # delete games that were initiated but never saved. (person didnt hit pause)
+  #   # debugger
+    
+  # end
 
-  def stats 
-    stats = Game.top_games 
-    render  json: stats
-  end
+  # def stats 
+  #   stats = Game.top_games 
+  #   render  json: stats
+  # end
 
   private
 
