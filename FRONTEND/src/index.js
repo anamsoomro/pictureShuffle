@@ -87,9 +87,9 @@
 
       
     })
-    const timeli = document.createElement('li')
-    timeli.innerHTML = 'Best Time'
-    timeli.addEventListener('click', ()=>{
+    // const timeli = document.createElement('li')
+    // timeli.innerHTML = 'Best Time'
+    // timeli.addEventListener('click', ()=>{
       // event.preventDefault()
       // showDiv.innerHTML = '' 
       // fetch(GAMES_URL +  '/stats')
@@ -97,14 +97,14 @@
       // .then(stats => console.log(stats))
       
       
-    })
-    const userli = document.createElement('li')
-    userli.innerHTML = 'Top User'
-    userli.addEventListener('click', ()=>{
-      showDiv.innerHTML = '' 
+    // })
+    // const userli = document.createElement('li')
+    // userli.innerHTML = 'Top User'
+    // userli.addEventListener('click', ()=>{
+    //   showDiv.innerHTML = '' 
       
-    })
-    subMenuDiv.append(li, timeli, userli)
+    // })
+    // subMenuDiv.append(li, timeli, userli)
   })
 
   savedGamesLi.addEventListener("click", ()=>{
