@@ -13,9 +13,6 @@ body {
 }
 
 
-.gallery:hover:not(.active){
-  /* height:  500px; */
-}
 
 .user-bar {
   background-color: #333;
@@ -34,18 +31,106 @@ body {
   /* width: 20%; */
   position: fixed;
   /* height: 100%; */
+  /* overflow-y: hidden;
+  overflow-x: auto; */
   overflow: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+
   height: 120px;
   width: 100%;
   /* margin-top: 80px; */
 }
 
+.sub-menu::-webkit-scrollbar {
+  display: none;
+}
+
 .show-panel {
   margin-top: 120px;
-  width: 500px; 
+  /* width: 500px; 
   /* white-space: nowrap; */
-  display: block;
+  /* display: block;  */
+
+  display: grid;
+  height: 300px;
+  grid-template-columns: repeat(2, 1fr);
+  grid-column-gap: 10px;
+  /* background-color: orange; */
+  /* div { */
+    /* padding: 10px; */
+  /* } */
+  /* & :first-child{ */
+    /* background-color: chartreuse; */
+  /* } */
+  /* & :last-child{ */
+    /* background-color: deepskyblue; */
+  /* } */
 }
+
+.game-controls {
+  background-color: #e0e1e2;
+  /* padding: 16px; */
+}
+
+.game-board { 
+  margin-left: 10px;
+  margin-top: 10px;
+}
+
+
+p {
+  font-weight: 300; 
+  padding: 14px 16px; 
+  margin: 0;
+  font-size: 30px;
+
+}
+p.hoverMeBefore:hover {
+  /* color: green; */
+  /* font-weight: bold; */
+  background-color: #333;
+  color: white;
+}
+p.hoverMeDuring { 
+  display: none;
+}
+p.hoverMeDuring:hover{
+  /* color: green; */
+  /* font-weight: bold; */
+  background-color: #333;
+  color: white;
+}
+
+
+table.leaderBoard, td.leaderBoard, th.leaderBoard {  
+  /* border: 1px solid #ddd; */
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+}
+
+table.leaderBoard {
+  border-collapse: collapse;
+  width: 50%;
+  font-weight: 300;
+  margin-left:auto; 
+  margin-right:auto;
+
+}
+
+th.leaderBoard, td.leaderBoard {
+  padding: 15px;
+}
+
+th.leaderBoard{
+  background-color: #aaafb4;
+  font-size: 25px;
+  font-weight: 300;
+}
+
+
+
+
 
 
 
@@ -57,6 +142,12 @@ ul {
   background-color: #333;
 }
 
+ul.main-menu { 
+  background-color: rgb(71, 71, 71);
+}
+
+
+
 li {
   float: left;
   display: block;
@@ -66,7 +157,6 @@ li {
   text-decoration: none;
 }
 
-/* i only want this on some li elements. not all. */
 li.hoverMe:hover:not(.active) {
   background-color: #111;
 }

@@ -10,35 +10,38 @@
           <form id="login">
             <li><label>username:</label></li>
             <li><input type="text" name="username"></li>
-            <li class="hoverMe"><input type="submit"></form></li>
+            <li class="hoverMe"><input type="submit" value="submit"></form></li>
           </form>
         
       </ul>
     </div>
 
     <div id="main-menu" class="main-menu" style="display: none">
-      <ul>
-        <li id="gallery" class="hoverMe">Puzzle Gallery</li> 
-        <li id="leaderBoard" class="hoverMe">Leader Boards</li>
-        <li id="savedGames" class="hoverMe">Unfinished Games</li>
+      <ul class="main-menu">
+        <li id="gallery" class="hoverMe">puzzle gallery</li> 
+        <li id="leaderBoard" class="hoverMe">leader boards</li>
+        <li id="savedGames" class="hoverMe">unfinished games</li>
       </ul>
     </div>
 
     <div id="sub-menu" class="sub-menu" style="display: none">
-      <!-- Here we will show gallery images -->
-      <!-- Or we will show saved games -->
-      <!-- Or we will show stats -->
+      <!-- show gallery images -->
+      <!-- show saved games -->
+      <!-- show stats -->
     </div>
 
   
 
-    <div id="show-panel" class="show-panel">
-      <!-- here we will show the game -->
-      <!-- or the leader board -->
-      <div id="game-controls">
-        <!-- MAYBE HERE PUT ALL THE GAME STATS INSTEAD OF BUTTONS -->
+    <div id="show-panel" class="show-panel" style="display: none">
+      <div id="game-board" class="game-board">
+        <!-- show board here -->
       </div>
-
+      <div id="game-controls" class="game-controls">
+        <!-- show controls here -->
+      </div>
+      <div id="leader-board">
+        <!-- show leader board here -->
+      </div>
     </div>
 
 
