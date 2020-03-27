@@ -8,7 +8,7 @@ class Game < ApplicationRecord
 
   def self.top_games 
     order = self.all.sort_by{|game| game.moves}
-    [order[0], order[1], order[3]]
+    [order[0], order[1], order[2]]
   end
 
   

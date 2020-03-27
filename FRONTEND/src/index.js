@@ -74,18 +74,18 @@
   leaderBoardLi.addEventListener("click", () => {
     subMenuDiv.innerHTML = ""
     showDiv.innerText = ""
-    const li = document.createElement('li')
-    li.innerHTML = 'Best Moves'
-    li.addEventListener('click', ()=>{
-      event.preventDefault()
-      showDiv.innerHTML = ''
+    const h1 = document.createElement('h1')
+    h1.innerText = 'Best Moves'
+      // li.addEventListener('click', ()=>{
+      // event.preventDefault()
+       showDiv.innerHTML = ''
 
       fetch(GAMES_URL +  '/stats')
       .then(res => res.json())
-      .then(stats => console.log(stats))
+      .then(stats => {console.log(stats)
+      })
       
-
-      
+      subMenuDiv.append(h1)
     })
     // const timeli = document.createElement('li')
     // timeli.innerHTML = 'Best Time'
@@ -105,7 +105,7 @@
       
     // })
     // subMenuDiv.append(li, timeli, userli)
-  })
+
 
   savedGamesLi.addEventListener("click", ()=>{
     subMenuDiv.style.display = "inline"
