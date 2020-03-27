@@ -31,8 +31,14 @@ class GamesController < ApplicationController
 
   def remove_bad_games
     # delete games that were initiated but never saved. (person didnt hit pause)
-    bad_games = Game.where( time: "0:00:00" )
+    # debugger
+    bad_games = Game.where( time: "00:00:00" )
     bad_games.destroy()
+  end
+
+  def stats 
+    stats = Game.top_games 
+    render  json: stats
   end
 
   private

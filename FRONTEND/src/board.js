@@ -15,17 +15,21 @@ const boardHTML =
       `<td><div id="x2_y1" class="tile8"></div></td>` +
       `<td><div id="x3_y1" class="blank"></div></td>` +
     `</tr>` +
-  `</table>` +
+  `</table>` 
 
-  `<button id="play">play</button>`+
-  `<button id="stop" style="display: none">pause</button>`+
+const controlsHTML = 
+  `<p id="play" class="hoverMeBefore">play</p>`+
+  `<p id="stop" class="hoverMeDuring">pause</p>`+
+  `<p id="moves">moves: 0</p>`+
+  `<p id="timer">time: 0:00:00 </p>` + 
+  `<p id="kill" class="hoverMeDuring">kill game </p>`
 
-  `<button id="moves">moves: 0</button>`+
-  `<button id="timer"> 0:00:00 </button>` + 
-  `<button id="kill" style="display: none" class="hoverMe"> kill game </button>`
+
   let time 
   let currentGame
   let dev 
+  // let gameBoard
+  // let tilePieces
 
   // do a let for all your document querySelectors and than put them here 
   // assign them when you show the board
@@ -33,9 +37,9 @@ const boardHTML =
 
 
 
-function showGame(openGame){
-  openGame ? showExistingGame(openGame) : showNewGame()
-}
+// function showGame(openGame){
+//   openGame ? showExistingGame(openGame) : showNewGame()
+// }
 
 function togglePlayPause(){
   const playBtn = document.querySelector("#play")
@@ -44,14 +48,14 @@ function togglePlayPause(){
   let movesBtn = document.querySelector("#moves")
   playBtn.addEventListener("click", () => {
     playBtn.style.display = "none"
-    stopBtn.style.display = "inline"
-    killBtn.style.display = "inline"
+    stopBtn.style.display = "block"
+    killBtn.style.display = "block"
     currentGame ? playPausedGame() : playNewGame()
   })
   stopBtn.addEventListener("click", () => {
     stopBtn.style.display = "none"
     killBtn.style.display = "none"
-    playBtn.style.display= "inline"
+    playBtn.style.display= "block"
     clearInterval(time)
     saveGame()
   }) 
@@ -62,7 +66,8 @@ function togglePlayPause(){
     let openGameImg = document.querySelector(`#gameId${currentGame.id}`)
     if (openGameImg) openGameImg.remove()
     currentGame = null
-    showGame()
+    // showGame()
+    showNewGame()
     togglePlayPause()
   })
 }
@@ -81,7 +86,7 @@ function playNewGame(){
   time = setInterval(()=>{
     const timer = document.querySelector("#timer")
     let timeDiff = Date.now() - startTime
-    timer.innerText = formatTime(timeDiff)
+    timer.innerText = `time: ${formatTime(timeDiff)}`
   }, 1000)
   tiles.forEach( tile => {
     tile.addEventListener("click", ()=>{activateTile(tile,movesBtn)})
@@ -107,16 +112,21 @@ function activateTile(tile,movesBtn){
           console.log("solved")
           const playBtn = document.querySelector("#play")
           const stopBtn = document.querySelector("#stop")
-          playBtn.style.display = "inline"
+          playBtn.style.display = "block"
           stopBtn.style.display = "none"
           const killBtn = document.querySelector("#kill")
           killBtn.style.display = "none"
           clearInterval(time)
-          winMessage()
+          // winMessage()
+          showWinGame()
           // if this an "unfinished game", remove it from their list of unfinished games
           let openGameImg = document.querySelector(`#gameId${currentGame.id}`)
           if (openGameImg) openGameImg.remove()
           closeGame()
+          // gameBoardDiv.innerHTML = ""
+          // gameControlsDiv.innerHTML = ""
+          // showNewGame()
+          // togglePlayPause()
           currentGame = null
         } 
       }
@@ -133,11 +143,11 @@ function playPausedGame(){
   const timer = document.querySelector("#timer")
   let tiles = board.querySelectorAll("div")
   moves = parseInt(movesBtn.innerText.substring(7))
-  let carryOverTime = timer.innerText
+  let carryOverTime = timer.innerText.substring(6)
   let startTime = Date.now()
   time = setInterval(()=>{
     let timeDiff = Date.now() - startTime
-    timer.innerText = addTime(formatTime(timeDiff), carryOverTime)
+    timer.innerText = `time: ${addTime(formatTime(timeDiff), carryOverTime)}`
   }, 1000)
   tiles.forEach(tile=> {
     tile.addEventListener("click", ()=>{activateTile(tile, movesBtn)})
@@ -224,8 +234,7 @@ function addTime(time1, time2){
     h = h + 1
     m = m - 60
   }
-  return h + ":" + m + ":" + s
-  //  this doesnt return minutes and seconds in two digits. come back later
+  return h + ":" + ("0" + m).slice(-2) + ":" + ("0" + s).slice(-2)
 }
 
 function postNewGame(){
@@ -251,7 +260,7 @@ function postNewGame(){
 
 function saveGame(){
   let moves = parseInt(document.querySelector("#moves").innerText.substring(7))
-  let time = document.querySelector("#timer").innerText
+  let time = document.querySelector("#timer").innerText.substring(6)
   const board = document.querySelector("#game-board")
   let pieces = board.querySelectorAll("div")
   fetch(GAMES_URL + "/" + currentGame.id, {
@@ -277,8 +286,9 @@ function saveGame(){
   .then(resp => resp.json())
   .then(updatedGame => {
     currentGame = updatedGame
-    // render game again wihout active tiles 
-    showDiv.innerHTML = ""
+    // render game again without active tiles 
+    gameBoardDiv.innerHTML = ""
+    gameControlsDiv.innerHTML = ""
     showExistingGame(currentGame)
     togglePlayPause()
   })
@@ -287,7 +297,7 @@ function saveGame(){
 
   function closeGame() {
   let moves = parseInt(document.querySelector("#moves").innerText.substring(7))
-  let time = document.querySelector("#timer").innerText
+  let time = document.querySelector("#timer").innerText.substring(6)
   fetch(GAMES_URL + "/" + currentGame.id, {
     method: "PATCH",
     headers: {"Content-Type": "application/json"},
@@ -301,7 +311,7 @@ function saveGame(){
       x1_y2: null,
       x2_y2: null,
       x3_y2: null,
-      x1_y1: null,
+      x1_y1: null, 
       x2_y1: null,
       x3_y1: null
     })
@@ -312,21 +322,36 @@ function saveGame(){
   })
 }
 
+
 function showNewGame(){
-  showDiv.innerHTML = boardHTML
+  showNewBoard()
+  showNewGameControls()
+}
+
+function showExistingGame(openGame){
+  showExistingBoard(openGame)
+  showExistingGameControls(openGame)
+}
+
+function showNewBoard(){
+  
+  gameBoardDiv.innerHTML = boardHTML
   const gameBoard = document.querySelector("#game-board")
   const tilePieces = gameBoard.querySelectorAll("div")
   tilePieces.forEach( tilePiece => {
     if (tilePiece.className !== "blank"){
       tilePiece.style.backgroundImage = `url(${currentImage.image_url})`
-
     }
   })
 }
 
-function showExistingGame(openGame){
+function showNewGameControls(){
+  gameControlsDiv.innerHTML = controlsHTML
+}
+
+function showExistingBoard(openGame){
   currentGame = openGame
-  showDiv.innerHTML = boardHTML
+  gameBoardDiv.innerHTML = boardHTML
   const x1_y1 = document.querySelector("#x1_y1")
   const x2_y1 = document.querySelector("#x2_y1")
   const x3_y1 = document.querySelector("#x3_y1")
@@ -351,10 +376,19 @@ function showExistingGame(openGame){
   if (tilePiece.className !== "blank"){
     tilePiece.style.backgroundImage = `url(${currentImage.image_url})`
   }})
+}
+
+function showExistingGameControls(openGame){
+  gameControlsDiv.innerHTML = controlsHTML
+  // const stopBtn = document.querySelector("#stop")
+  // stopBtn.style.display = "none"
+  // const killBtn = document.querySelector("#kill")
+  // killBtn.style.display = "none"
   let moves = document.querySelector("#moves")
   moves.innerText = `moves: ${openGame.moves}`
   let timer = document.querySelector("#timer")
-  timer.innerText = openGame.time
+  console.log("time in line 413", openGame.time)
+  timer.innerText = `time: ${openGame.time}`
 }
 
 function deleteGame(){
@@ -365,10 +399,27 @@ function deleteGame(){
   })
 }
 
-function winMessage(){
-  const h2 = document.createElement("h2")
-  h2.innerText = "you did it."
-  setTimeout(()=>{h2.remove()}, 5000)
-  showDiv.append(h2)
-  // clearInterval(time)
+function showWinGame(){
+  
+  // fetch(IMAGES_URL + "/" + currentImage.id + "/best")
+  // .then(resp => resp.json())
+  // .then(bestGames => {
+  //   // setTimeout(()=>{p.remove()}, 5000)
+  //   // const p = document.createElement("p")
+  //   // p.innerText = "you did it."
+  //   // gameControlsDiv.append(p)
+  //   const pBestGameByMoves = document.createElement("p")
+  //   // show
+  //   console.log(bestGames)
+  // })
+
+    const p = document.createElement("p")
+    p.innerText = "you did it."
+    gameControlsDiv.append(p)
+    setTimeout(()=>{p.remove()}, 5000)
+
+  
+  gameBoardDiv.innerHTML = ""
+  showNewBoard()
 }
+
