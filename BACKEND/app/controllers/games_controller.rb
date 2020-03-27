@@ -27,7 +27,8 @@ class GamesController < ApplicationController
   end
 
   def stats 
-    stats = {moves: Game.orderByMoves, time: Game.orderByTime}
+    # stats = {moves: Game.orderByMoves, time: Game.orderByTime}
+    stats = Game.top_games 
     render  json: stats
   end
 

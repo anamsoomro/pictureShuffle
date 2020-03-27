@@ -19,20 +19,20 @@ class User < ApplicationRecord
   #   self.games
   # end
 
-  def self.top3Users
-     return the top 3 users with the lowest avg speeds
-    order = User.all.sort_by do |user| 
-      user.avgSpeed
-    end
-    [ order[0], order[1], order[3] ]
-  end
+  # def self.topUsers
+  #   #  return the top 3 users with the lowest avg speeds
+  #   order = User.all.sort_by do |user| 
+  #     Game.orderByMoves
+  #   end
+  #   [ order[0], order[1], order[3] ]
+  # end
 
   # def avgSpeed 
-  #   look at all their closed games and return their avg speed
+  #   # look at all their closed games and return their avg speed
   #   closed_games = self.games.select{|game| game.status == "closed"}
   #   total = 0
   #   closed_games.each do |game| 
-  #     total = total + game.game_speed
+  #     total = total + game.orderByMoves
   #   end
   #   if closed_games.empty?
   #     avg = 0
