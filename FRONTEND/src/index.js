@@ -82,7 +82,12 @@
 
       fetch(GAMES_URL +  '/stats')
       .then(res => res.json())
-      .then(stats => {console.log(stats)
+      .then(leadStats => {
+        const img = document.createElement('img')
+        // img.src = image_id
+        stats = leadStats
+        console.log(leadStats)
+
       })
       
       subMenuDiv.append(h1)
