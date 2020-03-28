@@ -13,11 +13,21 @@
   const gameControlsDiv = document.querySelector("#game-controls")
   const gameBoardDiv = document.querySelector("#game-board")
   const leaderBoardDiv = document.querySelector("#leader-board")
-
+  const titleDiv = document.querySelector("#title")
+  const byH4 = document.querySelector("h4")
+  const spans = document.querySelectorAll("span")
   let currentUser
   let currentImage
 
-
+  spans.forEach(span => {
+    span.addEventListener( "mouseover", ()=> {
+      span.style.position = "relative"
+      span.style.top = "-60px"
+      setTimeout( ()=> {
+        span.style.top = "60px" 
+      }, 3000)
+    })
+  })
 
   form.addEventListener("submit", () => {
     event.preventDefault()
@@ -43,7 +53,8 @@
       logoutBtn.innerText = "logout"
       logoutBtn.style.float = "right"
       userUl.append(greeting, logoutBtn)
-      // when login show the other three divs 
+      titleDiv.style.display="none"
+      byH4.style.display = "none"
       logoutBtn.addEventListener("click", ()=> {
         mainMenuDiv.style.display = "none"
         subMenuDiv.style.display = "none" 
@@ -55,18 +66,21 @@
         form.style.display = "block"
         logoutBtn.remove()
         greeting.remove()
+        titleDiv.style.display = "block"
+        byH4.style.display = "block"
+        if (time) clearInterval(time)
       })
     })
   })
 
   galleryLi.addEventListener("click", () => {
-    showDiv.style.display = "none"
     subMenuDiv.style.display = "inline"
     subMenuDiv.innerHTML = "" 
+    showDiv.style.display = "none"
     gameBoardDiv.innerHTML = ""
-        gameControlsDiv.innerHTML = ""
-        leaderBoardDiv.innerHTML = ""
-
+    gameControlsDiv.innerHTML = ""
+    leaderBoardDiv.innerHTML = ""
+    if (time) clearInterval(time)
     fetch(IMAGES_URL)
     .then(resp => resp.json())
     .then(images => images.forEach(image => showImage(image)))
@@ -75,107 +89,26 @@
   leaderBoardLi.addEventListener("click", () => {
     subMenuDiv.style.display = "none"
     subMenuDiv.innerHTML = ""
+    showDiv.style.display = "block"
     gameBoardDiv.innerHTML = ""
     gameControlsDiv.innerHTML = ""
-    showDiv.style.display = "block"
-    const table = document.createElement("table")
-    const titlesTr = document.createElement("tr")
-    const imgTh = document.createElement("th")
-    imgTh.innerText = "image"
-    const movesTh = document.createElement("th")
-    movesTh.innerText = "least moves"
-    const timeTh = document.createElement("th")
-    timeTh.innerText = "least time"
-    assignClassName([imgTh, movesTh, timeTh, titlesTr, table], "leaderBoard")
-    titlesTr.append(imgTh, movesTh, timeTh)
-    table.append(titlesTr)
-    fetch(IMAGES_URL+"/stats")
-    .then(resp => resp.json())
-    .then(imgsWithStats => {
-      imgsWithStats["stats"].forEach( img => {
-        const imageTr = document.createElement("tr")
-        const imageTd = document.createElement("td")
-        const gameImg = document.createElement("img")
-        gameImg.src = img["image"]["image_url"]
-        gameImg.className = "gallery"
-        imageTd.append(gameImg)
-        const movesTd = document.createElement("td")
-        const timeTd = document.createElement("td")
-        if (img["game"] != "none") {
-          movesTd.innerText = `${img["game"]["byMoves"]["user"]} - ${img["game"]["byMoves"]["moves"]}`
-          timeTd.innerText = `${img["game"]["byTime"]["user"]} - ${img["game"]["byTime"]["time"]}`
-        } else {
-          movesTd.innerText = "no games played"
-          timeTd.innerText = "no games played"
-        }
-        assignClassName([imageTd, movesTd, timeTd], "leaderBoard")
-        imageTr.append(imageTd, movesTd, timeTd)
-        table.append(imageTr)
-      })
-      leaderBoardDiv.append(table)
-    })
-
-    function assignClassName (elementsArr, classN){
-      elementsArr.forEach (element => {
-        element.className = classN
-      })
-    }
-
-
-
-    // debugger
-    // const h1 = document.createElement('h1')
-    // h1.innerText = 'Best Moves'
-    // fetch(GAMES_URL +  '/stats')
-    // .then(res => res.json())
-    // .then(leadStats => {
-    //   const img = document.createElement('img')
-    //   console.log(leadStats)
-    //   // get the image. for each game
-    //   img.src = image.image_url
-    //   img.className = "gallery"
-
-    // })
-    // subMenuDiv.append(h1)
+    if (time) clearInterval(time)
+    createLeaderBoard()
   })
 
   savedGamesLi.addEventListener("click", ()=>{
-    showDiv.style.display = "none"
     subMenuDiv.style.display = "inline"
     subMenuDiv.innerHTML = ""
+    showDiv.style.display = "none"
     gameBoardDiv.innerHTML = ""
     gameControlsDiv.innerHTML = ""
     leaderBoardDiv.innerHTML = ""
-
+    if (time) clearInterval(time)
     fetch(USERS_URL + "/" + currentUser.id) 
     .then(resp => resp.json())
     .then(games =>{showGames(games["open"])})
   })
 
-  function showGames(openGames){
-    openGames.forEach(openGame => {
-      fetch(IMAGES_URL + "/" + openGame.image_id)
-      .then(resp => resp.json())
-      .then(image => {showImage(image, openGame)})
-    })
-  }
 
-  function showImage(image, openGame = null){
-    let img = document.createElement("img")
-    img.src = image.image_url
-    if (openGame) img.id = `gameId${openGame.id}`
-    img.className = "gallery" // or can i just set a format for all images. one less class
-    img.addEventListener("click", ()=>{
-      showDiv.style.display = "grid"
-      console.log("time defined here:", time) // if time is assigned to something here than stop clearIntervalTime
-      if (time) clearInterval(time)
-      currentImage = image
-      currentGame = null 
-      openGame ? showExistingGame(openGame) : showNewGame()
-      // debugger
-      // showGame(openGame) 
-      togglePlayPause() 
-    }) 
-    subMenuDiv.append(img)
-  }
+ 
 

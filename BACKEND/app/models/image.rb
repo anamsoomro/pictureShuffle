@@ -2,8 +2,6 @@ class Image < ApplicationRecord
   has_many :games 
   has_many :users, through: :games
 
-
-  # this isnt being used yet. 
   def best_games
     closed_games = self.games.select {|game| game.status == "closed"}
     least_moves = closed_games.sort_by{|game| game.moves}
@@ -16,8 +14,5 @@ class Image < ApplicationRecord
       return "none"
     end
   end
-
-
-  
 
 end

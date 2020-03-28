@@ -6,13 +6,20 @@ body {
   margin: 0;
 }
 
+/* for by in corner */
+h4 {
+  position:absolute;
+  bottom:0;
+  right:0;
+  font-weight: 300;
+  margin-right: 1.33em;
+}
 
+/* for game images */
 .gallery {
    height: 120px;
    display: inline-block;
 }
-
-
 
 .user-bar {
   background-color: #333;
@@ -25,21 +32,14 @@ body {
 
 .sub-menu {
   background-color: #aaafb4;
-  /* margin-left: 15%; */
   padding: 0;
   border: 0;
-  /* width: 20%; */
   position: fixed;
-  /* height: 100%; */
-  /* overflow-y: hidden;
-  overflow-x: auto; */
   overflow: auto;
   overflow-y: hidden;
   white-space: nowrap;
-
   height: 120px;
   width: 100%;
-  /* margin-top: 80px; */
 }
 
 .sub-menu::-webkit-scrollbar {
@@ -48,24 +48,11 @@ body {
 
 .show-panel {
   margin-top: 120px;
-  /* width: 500px; 
-  /* white-space: nowrap; */
-  /* display: block;  */
-
   display: grid;
   height: 300px;
   grid-template-columns: repeat(2, 1fr);
   grid-column-gap: 10px;
-  /* background-color: orange; */
-  /* div { */
-    /* padding: 10px; */
-  /* } */
-  /* & :first-child{ */
-    /* background-color: chartreuse; */
-  /* } */
-  /* & :last-child{ */
-    /* background-color: deepskyblue; */
-  /* } */
+  
 }
 
 .game-controls {
@@ -78,17 +65,15 @@ body {
   margin-top: 10px;
 }
 
-
+/* for game controls */
 p {
   font-weight: 300; 
   padding: 14px 16px; 
   margin: 0;
   font-size: 30px;
-
 }
+
 p.hoverMeBefore:hover {
-  /* color: green; */
-  /* font-weight: bold; */
   background-color: #333;
   color: white;
 }
@@ -96,15 +81,11 @@ p.hoverMeDuring {
   display: none;
 }
 p.hoverMeDuring:hover{
-  /* color: green; */
-  /* font-weight: bold; */
   background-color: #333;
   color: white;
 }
 
-
 table.leaderBoard, td.leaderBoard, th.leaderBoard {  
-  /* border: 1px solid #ddd; */
   border-bottom: 1px solid #ddd;
   text-align: left;
 }
@@ -128,12 +109,27 @@ th.leaderBoard{
   font-weight: 300;
 }
 
+table.game-board{ 
+  margin-left: auto; 
+  margin-right: auto;
+}
 
+/* for picture shuffle title */
+div.title {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  transform: translate(-50%, -50%);
+  font-size: 60px;
+  text-align: center;
+} 
 
+span { 
+   padding: 10px; 
+}
 
-
-
-
+/* for main/sub menu and user bar */
 ul {
   list-style-type: none;
   margin: 0;
@@ -145,8 +141,6 @@ ul {
 ul.main-menu { 
   background-color: rgb(71, 71, 71);
 }
-
-
 
 li {
   float: left;
@@ -165,13 +159,11 @@ input[type="button" i], input[type="submit" i], input[type="reset" i] {
   all: unset;
 }
 
-/* BOARD CSS */
-
+/* for game tiles */
 .tile1, .tile2, .tile3, .tile4, .tile5, .tile6, .tile7, .tile8, .blank {
   width: 160px;
   height: 160px;
 }
-
 
 .tile1 {
   background-position: left top;
@@ -184,17 +176,14 @@ input[type="button" i], input[type="submit" i], input[type="reset" i] {
 .tile3 {
   background-position: right top;
 }
- 
 
 .tile4 {
-  background-position: left center;
+background-position: left center;
 }
-    
 
 .tile5 {
   background-position: center center;
 }
-   
  
 .tile6 {
   background-position: right center;
@@ -208,7 +197,6 @@ input[type="button" i], input[type="submit" i], input[type="reset" i] {
   background-position: center bottom;
 }
     
-   
 .blank {
   background: white;
 }

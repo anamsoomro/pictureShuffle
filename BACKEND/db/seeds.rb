@@ -8,8 +8,6 @@ dumdum = User.create(username: "dumdum")
 sik = User.create(username: "sikuMan")
 bub = User.create(username: "bubbles")
 
-
-
 # for now only 480 x 480 
 painting = Image.create(name: "painting", image_url: "https://www.paul-wright.com/wp-content/uploads/2019/02/Gaze-oil-on-linen-130cm-x-90cm-2019-for-email-480x480.jpg")
 earth = Image.create(name: "earth", image_url: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Earth_Eastern_Hemisphere.jpg/480px-Earth_Eastern_Hemisphere.jpg")
