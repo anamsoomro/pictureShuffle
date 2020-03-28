@@ -1,6 +1,5 @@
 class GamesController < ApplicationController
 
-
   def index 
     games = Game.all 
     render json: games
@@ -26,17 +25,6 @@ class GamesController < ApplicationController
     current_game = Game.find(params[:id])
     current_game.destroy()
   end
-
-  # def remove_bad_games
-  #   # delete games that were initiated but never saved. (person didnt hit pause)
-  #   # debugger
-    
-  # end
-
-  # def stats 
-  #   stats = Game.top_games 
-  #   render  json: stats
-  # end
 
   private
 
